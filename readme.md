@@ -15,3 +15,14 @@ when a plural gets loaded up:
 * its variants get put into li elements in the variant list
 * it is visually tagged as active on the textOutput pane.
 * variant-switching hotkeys are primed to switch through its variants, save or delete
+
+clicking on an li element from the active plural's variant list activates it--this changes the text in both textInput and textOutput
+
+clicking save:
+  * if a plural is active
+    * if the current selection is the same as a saved variant of the active plural
+      * saves the curent text selection as a new variant of the active plural
+    * if the current selection is not the same as any saved variant for that plural
+      * creates a new plural and makes it active
+        * saves the current text selection as a new variant of the active plural
+
