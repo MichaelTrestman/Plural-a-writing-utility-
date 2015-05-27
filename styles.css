@@ -1,22 +1,32 @@
 #textInput {
-  background-color: azure;
+  background-color: darkseagreen;
   position: fixed;
-  top: 5%;
+  top: 1%;
   left: 5%;
-  height: 80%;
-  width: 40%;
+  height: 60%;
+  width: 45%;
   overflow: scroll;
+  margin: 0;
 
 }
 #textOutput {
-  background-color: darkseagreen;
+  background-color: azure;
   position: fixed;
-  top: 5%;
-  left: 65%;
-  height: 80%;
-  width: 40%;
+  top: 1%;
+  left: 52%;
+  height: 60%;
+  width: 45%;
   overflow: scroll;
+  margin: 0;
 
+}
+#activePlural {
+	position: fixed;
+	top: 61%;
+	width: 90%;
+	height: 20%;
+	background-color: gold;
+	border: solid 1px black;
 }
 
 .plural {
