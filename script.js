@@ -1,16 +1,41 @@
 $(function(){
   var plurals = [];
   var activePlural = null;
+  var keysDown = {
+    base: false,
+    save: false,
+    prev: false,
+    next: false
+  };
+  var keyEncodings = {
+    192: 'base',
+    220: 'save',
+    219: 'prev',
+    221: 'next',
+    8: 'delete'    
+  };
 
   $('#textInput').on('keydown', function(e){
 
-    // ok so this really needs to check for a combo of keypresses. we're going to do "`" as the base key, "{" and "}" as switch up and down through the variants of the current plural, "\" as save new variant, and "delete" as delete active variant;
-    if (e.keyCode === 192) {
-      e.preventDefault();
-      var textContent = getTextInput(this);
-      // console.log(selection);
-      renderTextOutput(this, textContent.allText);
-    }
+    var keyCodeStr = e.keyCode;
+    keyDown = keyEncodings[keyCodeStr];
+    keysDown[keyDown] = true;
+
+    console.log('keysDown: ');
+    console.log(keysDown);
+
+    // if (e.keyCode === 192) {
+    //   e.preventDefault();
+    //   var textContent = getTextInput(this);
+    //   // console.log(selection);
+    //   renderTextOutput(this, textContent.allText);
+    // }
+  });
+
+  $('#textInput').on('keyup', function(e){
+    var keyCodeStr = e.keyCode;
+    keyDown = keyEncodings[keyCodeStr];
+    keysDown[keyDown] = false;
   });
 })
 
