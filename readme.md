@@ -26,3 +26,4 @@ clicking save:
       * creates a new plural and makes it active
         * saves the current text selection as a new variant of the active plural
 
+right so we also need some indication of the current state--if a variant is active or if the text is out of any existing variant, which plural is active (on the text), etc.
