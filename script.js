@@ -1,13 +1,13 @@
-$(function(){
+var globals = $(function(){
 
-  var plurals = [];
+  var plurals = {};
   var activePlural = null;
   var keyEncodings = {
     192: 'base',
     220: 'save',
     219: 'prev',
     221: 'next',
-    8: 'delete'    
+    8: 'delete'
   };
   var keysDown = {
     base: false,
@@ -15,14 +15,13 @@ $(function(){
     prev: false,
     next: false
   };
-  
+
   $('span.plural').on('click', function(){
-    alert('yo')
     if ( !$(this).hasClass('active') ){
       $('span.plural.active').each(deactivatePlural);
-      activatePlural(this);  
+      activatePlural(this);
     }
-    
+
   });
 
   $('#textInput').on('keydown', function(e){
@@ -33,9 +32,9 @@ $(function(){
     //only runActions if keysDown.base and exactly one other keysDown value are true
     if (keysDown.hasOwnProperty(keyDown)) {
       keysDown[keyDown] = true;
-      
-      if ( 
-        keysDown.base 
+
+      if (
+        keysDown.base
           &&
         Object.keys(keysDown)
             .filter(function(x){ return keysDown[x] })
@@ -46,7 +45,7 @@ $(function(){
 
 
     };
-   
+
       var textContent = getTextInput(this);
       renderTextOutput(this, textContent.allText);
   });
@@ -56,6 +55,9 @@ $(function(){
     keyDown = keyEncodings[keyCodeStr];
     keysDown[keyDown] = false;
   });
+  return {
+    plurals: plurals
+  };
 })
 
 
@@ -80,5 +82,4 @@ function renderTextOutput(that, textContent){
   $('.plural').on('click', function(){
     activatePlural(this)
   })
-
 }

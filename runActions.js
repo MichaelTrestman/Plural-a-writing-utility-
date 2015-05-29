@@ -5,7 +5,7 @@ function runActions(keysDown){
   } else {
     if (keysDown.save){
       console.log('save!');
-      handleCommand.save();
+      handleCommand.save(plural_id, textSelection);
       return;
     }
   }
