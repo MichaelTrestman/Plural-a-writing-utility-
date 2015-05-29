@@ -1,7 +1,12 @@
-var globals = $(function(){
+var globals = {};
 
-  var plurals = {};
-  var activePlural = null;
+$(function(){
+  globals.plurals = {};
+  globals.plural_id_iterator = 0;
+  globals.activePlural_id = null;
+
+//this is a mess clean it up!
+
   var keyEncodings = {
     192: 'base',
     220: 'save',
@@ -16,20 +21,16 @@ var globals = $(function(){
     next: false
   };
 
-  $('span.plural').on('click', function(){
-    if ( !$(this).hasClass('active') ){
-      $('span.plural.active').each(deactivatePlural);
-      activatePlural(this);
-    }
-
-  });
 
   $('#textInput').on('keydown', function(e){
-
-    var keyCodeStr = e.keyCode;
-    keyDown = keyEncodings[keyCodeStr];
+    if (e.keyCode === 192 || keysDown.base) e.preventDefault();
+    
+    var keyDown = keyEncodings[e.keyCode];
 
     //only runActions if keysDown.base and exactly one other keysDown value are true
+    
+    var textContent = getTextInput(this);
+
     if (keysDown.hasOwnProperty(keyDown)) {
       keysDown[keyDown] = true;
 
@@ -39,15 +40,13 @@ var globals = $(function(){
         Object.keys(keysDown)
             .filter(function(x){ return keysDown[x] })
             .length == 2
-      ) {
-        runActions(keysDown);
+      ){
+        runActions(keysDown, globals.activePlural_id, textContent);
       };
 
-
     };
-
-      var textContent = getTextInput(this);
-      renderTextOutput(this, textContent.allText);
+      
+    renderTextOutput(this, textContent.allText);
   });
 
   $('#textInput').on('keyup', function(e){
@@ -55,18 +54,29 @@ var globals = $(function(){
     keyDown = keyEncodings[keyCodeStr];
     keysDown[keyDown] = false;
   });
-  return {
-    plurals: plurals
-  };
+
+
 })
 
-
+function attachClickHandlerToAllPlurals(){
+  $('span.plural').off();
+  $('span.plural').on('click', function(){
+    if ( !$(this).hasClass('active') ){
+      $('span.plural.active').each(deactivatePlural);
+      activatePlural(this);
+    };
+  });
+}
+  
 function getTextInput(that){
+
   var selectionText = that.value.substr(that.selectionStart, (that.selectionEnd - that.selectionStart) );
   console.log(selectionText);
   var textBeforeSelection = that.value.substr(0, that.selectionStart);
   var textAfterSelection = that.value.substr(that.selectionEnd, that.value.length);
-  that.value = textBeforeSelection + "~{" + selectionText + "}~" + textAfterSelection;
+  //this is actually part of the creation of a new plural
+  // that.value = textBeforeSelection + "~{" + selectionText + "}~" + textAfterSelection;
+  
   return {
     allText: that.value,
     selection: selectionText

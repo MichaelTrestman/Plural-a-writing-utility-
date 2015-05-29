@@ -12,7 +12,7 @@
       Iguanodontia is a clade of herbivorous dinosaurs that lived from the Middle Jurassic to Late Cretaceous. Some members include Camptosaurus, Callovosaurus, Iguanodon, Tenontosaurus, and the hadrosaurids or "duck-billed dinosaurs". Iguanodontians were one of the first groups of dinosaurs to be found. They are among the best known of the dinosaurs, and were among the most diverse and widespread herbivorous dinosaur groups of the Cretaceous period.[3] Derived iguanodontians (such as Muttaburrasaurus and many ankylopollexians) were generally large animals, and some (such as Shantungosaurus, which measured up to 50 ft (15 m) in length and weighed up to 8 tons) equaled the largest carnivorous dinosaurs in size.
     </textarea>
     <p id='textOutput'>output</p>
-    <ul id='activePlural'></ul>
+    <ul id='activePluralDisplay'></ul>
   </div>
 
 
@@ -21,6 +21,18 @@
   <script type="text/javascript" src="handleCommands.js"></script>
   <script type="text/javascript" src="runActions.js"></script>
   <script type="text/javascript" src="activatePlural.js"></script>
+  <script type="text/javascript">
+
+    function renderPluralDisplay(thisPlural){
+      var display = $('#activePluralDisplay');
+      display.empty();
+      thisPlural.forEach(function(variant){
+        display.append("<p>" + variant + "</p>")
+      })
+    }
+
+
+  </script>
 </body>
 
 
