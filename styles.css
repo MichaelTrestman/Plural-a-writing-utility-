@@ -33,3 +33,6 @@
 	background-color: rgba(100, 0, 0, 0.2);
   /*border: solid 1px red;*/
 }
+.active {
+  border: solid 2px gold
+}
