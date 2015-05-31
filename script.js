@@ -23,13 +23,17 @@ $(function(){
 
 
   $('#textInput').on('keydown', function(e){
-    if (e.keyCode === 192 || keysDown.base) e.preventDefault();
-    
+
+    if (e.keyCode === 192 || keysDown.base){
+      e.preventDefault()
+    };
+
     var keyDown = keyEncodings[e.keyCode];
 
     //only runActions if keysDown.base and exactly one other keysDown value are true
-    
+
     var textContent = getTextInput(this);
+    var feedback = {};
 
     if (keysDown.hasOwnProperty(keyDown)) {
       keysDown[keyDown] = true;
@@ -41,12 +45,10 @@ $(function(){
             .filter(function(x){ return keysDown[x] })
             .length == 2
       ){
-        runActions(keysDown, globals.activePlural_id, textContent);
+        feedback = runActions(keysDown, globals.activePlural_id, textContent);
       };
-
     };
-      
-    renderTextOutput(this, textContent.allText);
+    renderTextOutput(this, textContent, !!feedback.isNewTag);
   });
 
   $('#textInput').on('keyup', function(e){
@@ -54,7 +56,6 @@ $(function(){
     keyDown = keyEncodings[keyCodeStr];
     keysDown[keyDown] = false;
   });
-
 
 })
 
@@ -67,29 +68,15 @@ function attachClickHandlerToAllPlurals(){
     };
   });
 }
-  
-function getTextInput(that){
 
-  var selectionText = that.value.substr(that.selectionStart, (that.selectionEnd - that.selectionStart) );
-  console.log(selectionText);
-  var textBeforeSelection = that.value.substr(0, that.selectionStart);
-  var textAfterSelection = that.value.substr(that.selectionEnd, that.value.length);
-  //this is actually part of the creation of a new plural
-  // that.value = textBeforeSelection + "~{" + selectionText + "}~" + textAfterSelection;
-  
-  return {
-    allText: that.value,
-    selection: selectionText
-  };
-}
 
-function renderTextOutput(that, textContent){
-  textContent = textContent.replace(/~\{/g, '<span class="plural">');
-  textContent = textContent.replace(/\}~/g, '</span>');
-  console.log(textContent);
-  $('#textOutput').html(textContent);
-  $('.plural').off();
-  $('.plural').on('click', function(){
-    activatePlural(this)
-  })
+
+
+function addPluralTags (that, textContent) {
+
+  that.value = textBeforeSelection + "~{" + selectionText + "}~" + textAfterSelection;
+  var textOutput = textContent.allText.replace(/~(\d+)\{/g, function(id){
+    '<span class="plural id_' + id.toString() + '">'
+  });
+  textOutput = textOutput.replace(/\}~/g, '</span>');
 }

@@ -1,18 +1,16 @@
 handleCommand = {
   save: function (plural_id, textSelection) {
-    
+
     // is there a current selection?
     if( textSelection ==="") {
       return { error: 'no text selected' }
     };
-
     var thisPlural = globals.plurals.plural_id;
-    
+
     // is the text selection identical to an existing variant for the selected plural?
     if ( thisPlural && variantAlreadyIsSaved(thisPlural, textSelection) ) {
       return {error: 'variant already is saved'}
     };
-    
 
     //is there an active plural? if not, create one!
     if (thisPlural===undefined){

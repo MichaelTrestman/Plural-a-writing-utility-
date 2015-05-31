@@ -1,5 +1,6 @@
 function runActions(keysDown, activePlural_id, textContent)
 {
+  feedback = {};
   if (!keysDown.base){
     console.log('no action');
     return null;
@@ -7,9 +8,10 @@ function runActions(keysDown, activePlural_id, textContent)
     if (keysDown.save){
       console.log('save!');
       handleCommand.save(activePlural_id, textContent.selection);
-      return;
+      feedback.isNewTag = true;
+
     }
   }
   console.log('still no action');
-  return;
+  return feedback;
 }
