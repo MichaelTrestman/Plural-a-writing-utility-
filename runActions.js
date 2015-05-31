@@ -7,9 +7,8 @@ function runActions(keysDown, activePlural_id, textContent)
   } else {
     if (keysDown.save){
       console.log('save!');
-      handleCommand.save(activePlural_id, textContent.selection);
+      handleCommand.save(activePlural_id, textContent);
       feedback.isNewTag = true;
-
     }
   }
   console.log('still no action');

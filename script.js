@@ -1,11 +1,10 @@
 var globals = {};
 
 $(function(){
+
   globals.plurals = {};
   globals.plural_id_iterator = 0;
   globals.activePlural_id = null;
-
-//this is a mess clean it up!
 
   var keyEncodings = {
     192: 'base',
@@ -21,19 +20,22 @@ $(function(){
     next: false
   };
 
-
-  $('#textInput').on('keydown', function(e){
+  $('#textBox').on('keydown', function(e){
 
     if (e.keyCode === 192 || keysDown.base){
       e.preventDefault()
     };
 
     var keyDown = keyEncodings[e.keyCode];
+    var textContent = getTextInput(this);
+    // console.log('textContent.allText: ')
+    // console.log(textContent.allText)
+    // console.log('textContent.selection: ')
+    // console.log(textContent.selection)
+
+    var feedback = {};
 
     //only runActions if keysDown.base and exactly one other keysDown value are true
-
-    var textContent = getTextInput(this);
-    var feedback = {};
 
     if (keysDown.hasOwnProperty(keyDown)) {
       keysDown[keyDown] = true;
@@ -48,35 +50,49 @@ $(function(){
         feedback = runActions(keysDown, globals.activePlural_id, textContent);
       };
     };
-    renderTextOutput(this, textContent, !!feedback.isNewTag);
+    // renderTextOutput(this, textContent, !!feedback.isNewTag);
   });
 
-  $('#textInput').on('keyup', function(e){
+  $('#textBox').on('keyup', function(e){
     var keyCodeStr = e.keyCode;
-    keyDown = keyEncodings[keyCodeStr];
+    var keyDown = keyEncodings[keyCodeStr];
     keysDown[keyDown] = false;
   });
 
 })
 
-function attachClickHandlerToAllPlurals(){
-  $('span.plural').off();
-  $('span.plural').on('click', function(){
-    if ( !$(this).hasClass('active') ){
+
+$('body').on('click', '.plural', function(e){
+  var thisPluralSpan = e.currentTarget;
+  console.log('yo yo yo this plural got clicked')
+
+    if ( !$(thisPluralSpan).hasClass('active') ){
+
       $('span.plural.active').each(deactivatePlural);
-      activatePlural(this);
+      activatePlural(thisPluralSpan);
+
     };
-  });
-}
+})
+
+// $('body').on('keydown', '.plural', function(e){
+//   var thisPluralSpan = e.currentTarget;
+//   console.log('yo yo yo this plural got clicked')
+
+//     if ( !$(thisPluralSpan).hasClass('active') ){
+
+//       $('span.plural.active').each(deactivatePlural);
+//       activatePlural(thisPluralSpan);
+
+//     };
+// })
 
 
 
+// function addPluralTags (that, textContent) {
 
-function addPluralTags (that, textContent) {
-
-  that.value = textBeforeSelection + "~{" + selectionText + "}~" + textAfterSelection;
-  var textOutput = textContent.allText.replace(/~(\d+)\{/g, function(id){
-    '<span class="plural id_' + id.toString() + '">'
-  });
-  textOutput = textOutput.replace(/\}~/g, '</span>');
-}
+//   that.value = textBeforeSelection + "~{" + selectionText + "}~" + textAfterSelection;
+//   var textOutput = textContent.allText.replace(/~(\d+)\{/g, function(id){
+//     '<span class="plural id_' + id.toString() + '">'
+//   });
+//   textOutput = textOutput.replace(/\}~/g, '</span>');
+// }
